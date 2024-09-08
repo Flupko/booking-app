@@ -7,8 +7,18 @@ import path from "path";
 
 import userRoutes from "./routes/users.route";
 import authRoutes from "./routes/auth.route";
+import myHotelsRoutes from "./routes/myhotels.route";
 
 import logger from "./middlewares/logger.middleware";
+
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 mongoose.connect(process.env.MONGO_CONNECTION_STRING as string);
 
 const app = express();
@@ -25,6 +35,7 @@ app.use(logger);
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/myhotels", myHotelsRoutes);
 
 if (process.env.NODE_ENV === "production") {
   // Serve static files from the "dist" directory

@@ -1,6 +1,4 @@
 const Hero = () => {
-
-  console.log("render hero");
   
   
   return (
