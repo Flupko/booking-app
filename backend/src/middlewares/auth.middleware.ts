@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
+import User, { UserType } from "../models/user";
 
 declare global {
   namespace Express {
@@ -22,6 +23,13 @@ export const verifyToken = (
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
+
+    const user = User.findById((decoded as JwtPayload).userId);
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
     req.userId = (decoded as JwtPayload).userId;
     next();
   } catch (error) {
