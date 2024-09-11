@@ -6,6 +6,7 @@ import { useAppContext } from "./context/AppContext";
 import AddHotel from "./pages/AddHotel";
 import { BrowserRouter } from "react-router-dom";
 import MyHotels from "./pages/MyHotels";
+import EditHotel from "./pages/EditHotel";
 
 function App() {
   const { isLoggedIn } = useAppContext();
@@ -60,6 +61,14 @@ function App() {
               element={
                 <Layout>
                   <MyHotels />
+                </Layout>
+              }
+            />
+            <Route
+              path="/edit-hotel/:hotelId"
+              element={
+                <Layout>
+                  <EditHotel />
                 </Layout>
               }
             />

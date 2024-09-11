@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import User, { UserType } from "../models/user";
 
 declare global {
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export const verifyToken = (
+export const verifyToken = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -24,7 +24,9 @@ export const verifyToken = (
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
 
-    const user = User.findById((decoded as JwtPayload).userId);
+    const user: UserType | null = await User.findById(
+      (decoded as JwtPayload).userId
+    );
 
     if (!user) {
       return res.status(400).json({ message: "User not found" });
