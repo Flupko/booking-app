@@ -1,6 +1,6 @@
 import { useContext, createContext, useState } from "react";
 import Toast from "../components/Toast";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import * as apiClient from "../api-client";
 import React from "react";
 
@@ -24,7 +24,9 @@ export const AppContextProvider = ({
 }) => {
   const [toast, setToast] = useState<ToastMessage | undefined>(undefined);
 
-  const { isError } = useQuery("validateToken", apiClient.validateToken, {
+  const { isError } = useQuery({
+    queryKey: ["validateToken"],
+    queryFn: apiClient.validateToken,
     retry: false,
   });
 

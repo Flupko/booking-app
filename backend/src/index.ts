@@ -8,6 +8,7 @@ import path from "path";
 import userRoutes from "./routes/users.route";
 import authRoutes from "./routes/auth.route";
 import myHotelsRoutes from "./routes/myhotels.route";
+import hotelRoutes from "./routes/hotels.route";
 
 import logger from "./middlewares/logger.middleware";
 
@@ -36,6 +37,7 @@ app.use(logger);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/myhotels", myHotelsRoutes);
+app.use("/api/hotels", hotelRoutes);
 
 if (process.env.NODE_ENV === "production") {
   // Serve static files from the "dist" directory

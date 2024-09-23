@@ -1,14 +1,17 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../context/AppContext";
 import { BsBuilding, BsMap } from "react-icons/bs";
 import { BiHotel, BiMoney, BiStar } from "react-icons/bi";
+import { HotelType } from "../../../backend/src/shared/types";
 
 const MyHotels = () => {
   const { showToast } = useAppContext();
 
-  const { data: hotelData } = useQuery("myhotels", apiClient.fetchMyHotels, {
+  const { data: hotelData, isError } = useQuery({
+    queryKey: ["myhotels"],
+    queryFn: apiClient.fetchMyHotels,
     onError: () => {
       showToast({ message: "Failed to fetch hotels", type: "ERROR" });
     },
@@ -27,8 +30,11 @@ const MyHotels = () => {
       </span>
 
       <div className="grid grid-cols-1 gap-8">
-        {hotelData?.map((hotel) => (
-          <div className="flex flex-col justify-between border border-slate-300 rounded-lg p-8 gap-5">
+        {hotelData?.map((hotel: HotelType) => (
+          <div
+            key={hotel._id}
+            className="flex flex-col justify-between border border-slate-300 rounded-lg p-8 gap-5"
+          >
             <h2 className="text-2xl font-bold">{hotel.name}</h2>
             <div className="whitespace-pre-line">{hotel.description}</div>
             <div className="grid grid-cols-5 gap-2">

@@ -7,15 +7,14 @@ type ToastProps = {
 };
 
 const Toast = ({ message, type, onClose }: ToastProps) => {
-  const timer = useRef<undefined | number>();
 
   useEffect(() => {
-    timer.current = setTimeout(() => {
+    const timer = setTimeout(() => {
       onClose();
     }, 5000);
 
     return () => {
-      clearTimeout(timer.current);
+      clearTimeout(timer);
     };
   }, [message, type]);
 

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../context/AppContext";
 
@@ -7,9 +7,10 @@ const SignOutButton = () => {
 
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(apiClient.signOut, {
+  const mutation = useMutation({
+    mutationFn: apiClient.signOut,
     onSuccess: async () => {
-      await queryClient.invalidateQueries("validateToken");
+      await queryClient.invalidateQueries({ queryKey: ["validateToken"] });
       showToast({ message: "Signed out", type: "SUCCESS" });
     },
     onError: (error: Error) => {
