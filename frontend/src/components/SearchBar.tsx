@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useSearchContext } from "../context/SearchContext";
 import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 const SearchBar = () => {
   const navigate = useNavigate();
   const search = useSearchContext();
+
+  useEffect(() => {
+    console.log("Search Bar Mounted");
+  }, [])
 
   const [destination, setDestination] = useState(search.destination);
   const [checkIn, setCheckIn] = useState(search.checkIn);

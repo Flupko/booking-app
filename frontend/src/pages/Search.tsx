@@ -3,9 +3,7 @@ import { useSearchContext } from "../context/SearchContext";
 import * as apiClient from "../api-client";
 import { useState } from "react";
 import SearchResultCard from "../components/SearchResultCard";
-import {
-  HotelType,
-} from "../../../backend/src/shared/types";
+import { HotelType } from "../../../backend/src/shared/types";
 import Pagination from "../components/Pagination";
 import StarRatingFilter from "../components/StarRatingFilter";
 import HotelTypesFilter from "../components/HotelTypesFilter";
@@ -118,7 +116,7 @@ const Search = () => {
           </select>
         </div>
         {hotelData?.data.map((hotel: HotelType) => (
-          <SearchResultCard hotel={hotel} />
+          <SearchResultCard key={hotel._id} hotel={hotel} />
         ))}
         <div>
           <Pagination

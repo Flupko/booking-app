@@ -10,11 +10,11 @@ const router = express.Router();
 router.post(
   "/login",
   [
-    check("email", "Email is required").isEmail(),
+    // check("email", "Email is required").isEmail(),
     check(
       "password",
       "Password with 6 or more characters is required"
-    ).isLength({
+    ).isString().isLength({
       min: 6,
     }),
   ],
@@ -25,6 +25,7 @@ router.post(
     }
 
     const { email, password } = req.body;
+    
 
     try {
       const user = await User.findOne({ email });
@@ -51,7 +52,7 @@ router.post(
       });
       return res.status(200).json({ userId: user._id });
     } catch (error) {
-      console.log(error);
+      console.log("Error in login controller", error);
       return res.status(500).json({ message: "Something went wrong" });
     }
   }

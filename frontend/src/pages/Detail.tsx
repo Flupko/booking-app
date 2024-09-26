@@ -10,7 +10,7 @@ const Detail = () => {
   const navigate = useNavigate();
 
   const { data: hotel, isError } = useQuery({
-    queryKey: ["hotel", hotelId],
+    queryKey: ["fetchHotelById", hotelId],
     queryFn: () => apiClient.fetchHotelById(hotelId as string),
     enabled: !!hotelId,
   });
@@ -27,8 +27,8 @@ const Detail = () => {
     <div className="space-y-6">
       <div>
         <span className="flex">
-          {Array.from({ length: hotel.starRating }).map(() => (
-            <AiFillStar className="fill-yellow-400" />
+          {Array.from({ length: hotel.starRating }).map((_, nb) => (
+            <AiFillStar key={nb} className="fill-yellow-400" />
           ))}
         </span>
         <h1 className="text-3xl font-bold">{hotel.name}</h1>
@@ -36,7 +36,7 @@ const Detail = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {hotel.imageUrls.map((url) => (
-          <div className="h-[300px]">
+          <div className="h-[300px]" key={url}>
             <img
               src={url}
               alt={hotel.name}
@@ -48,7 +48,7 @@ const Detail = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-4">
         {hotel.facilities.map((facility) => (
-          <div className="border border-slate-300 rounded-sm p-3 m-1">
+          <div key={facility} className="border border-slate-300 rounded-sm p-3 m-1">
             {facility}
           </div>
         ))}

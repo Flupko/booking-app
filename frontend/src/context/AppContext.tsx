@@ -3,6 +3,10 @@ import Toast from "../components/Toast";
 import { useQuery } from "@tanstack/react-query";
 import * as apiClient from "../api-client";
 import React from "react";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
+
+
+const STRIPE_PUB_KEY = import.meta.env.VITE_STRIPE_PUB_KEY || "";
 
 export type ToastMessage = {
   message: string;
@@ -12,9 +16,12 @@ export type ToastMessage = {
 type AppContext = {
   showToast: (toastMessage: ToastMessage) => void;
   isLoggedIn: boolean;
+  stripePromise: Promise<Stripe | null>;
 };
 
 const AppContext = createContext<AppContext | undefined>(undefined);
+
+const stripePromise = loadStripe(STRIPE_PUB_KEY);
 
 // Just a component
 export const AppContextProvider = ({
@@ -35,6 +42,7 @@ export const AppContextProvider = ({
       value={{
         showToast: (toastMessage) => setToast(toastMessage),
         isLoggedIn: !isError,
+        stripePromise,
       }}
     >
       {toast && <Toast {...toast} onClose={() => setToast(undefined)} />}
